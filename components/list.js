@@ -33,7 +33,7 @@ class List extends Component{
                 <FlatList
                     data={this.state.list}
                     keyExtractor={(item) => {
-                        return item.id
+                        return item.id;
                     }}
                     renderItem={({item}) => {
                         return (
