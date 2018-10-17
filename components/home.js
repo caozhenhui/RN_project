@@ -8,7 +8,8 @@ import {
 	TextInput,
 	View,
 	ScrollView,
-	Dimensions 
+    Dimensions,
+    TouchableWithoutFeedback 
 } from 'react-native';
 
 class Home extends Component{
@@ -50,10 +51,12 @@ class Home extends Component{
                             {
                                 this.state.list.map( item => {
                                     return (
-                                        <View style={styles.listItem} key={item.id}>
-                                            <Image style={[styles.itemImg, {height: ImgHeight}]} source={{uri: item.uri}}/>
-                                            <Text style={styles.itemTitle}>{item.title}</Text>
-                                        </View>
+                                        <TouchableWithoutFeedback key={item.id} onPress={() => this.handleToList(item.id)}> 
+                                            <View style={styles.listItem}>
+                                                <Image style={[styles.itemImg, {height: ImgHeight}]} source={{uri: item.uri}}/>
+                                                <Text style={styles.itemTitle}>{item.title}</Text>
+                                            </View>
+                                        </TouchableWithoutFeedback>
                                     )
                                 })
                             }
@@ -75,7 +78,10 @@ class Home extends Component{
 		this.setState({
 			list:data.data.list
 		})
-	}
+    }
+    handleToList (id) {
+        this.props.nav.navigate('List', {id:id})
+    }
 }
 
 export default Home;
