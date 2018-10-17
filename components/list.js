@@ -23,7 +23,8 @@ class List extends Component{
     constructor(prop) {
         super(prop);
         this.state = {
-			list:[]
+            list:[],
+            refresh: false
 		};
     }
 
@@ -33,8 +34,10 @@ class List extends Component{
                 <FlatList
                     data={this.state.list}
                     keyExtractor={(item) => {
-                        return item.id;
+                        return item.id
                     }}
+                    refreshing={this.state.refresh}
+                    onRefresh={() => this.handleRefresh()}
                     renderItem={({item}) => {
                         return (
                             <View style={styles.item}>
@@ -51,7 +54,7 @@ class List extends Component{
         )
     }
 
-    componentWillMount () {
+    componentDidMount () {
         if (this.props.navigation) {
             let id = this.props.navigation.state.params.id;
         }
@@ -72,6 +75,31 @@ class List extends Component{
                 list:data.list_qiezi
             })
         }
+    }
+
+    handleRefresh () {
+        this.setState({
+            refresh: true
+        })
+        fetch('http:www.foud.com/list').then( res => {
+			return res.json();
+		}).then( data => {
+			if (this.props.navigation) {
+                this.setState(pre => {
+                    return {
+                        list:data.list_qiezi,
+                        refresh: false
+                    }
+                })
+            } else {
+                this.setState(pre => {
+                    return {
+                        list:data.list_xihongshi,
+                        refresh: false
+                    }
+                })
+            }
+		})
     }
 }
 

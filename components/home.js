@@ -67,7 +67,7 @@ class Home extends Component{
         )
 	}
 	
-	componentWillMount () {
+	componentDidMount () {
 		fetch('http:www.foud.com/img').then( res => {
 			return res.json();
 		}).then( data => {
